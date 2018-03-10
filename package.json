@@ -1,0 +1,28 @@
+{
+  "author": "Ersun Warncke <ersun.warncke@protonmail.com>",
+  "dependencies": {
+
+  },
+  "description": "c:ph core libraries",
+  "devDependencies": {
+    "chai": "4.1.2",
+    "chai-as-promised": "7.1.1",
+    "chai-subset": "1.6.0",
+    "mocha": "4.1.0",
+    "sinon": "4.1.5"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "engines": {
+    "node": ">=7.6.0"
+  },
+  "license": "MIT",
+  "main": "lib/ciph-core.js",
+  "name": "ciph-core",
+  "repository": "ciph-io/ciph-core",
+  "scripts": {
+    "test": "mocha"
+  },
+  "version": "0.0.1"
+}
