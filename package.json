@@ -1,7 +1,13 @@
 {
   "author": "Ersun Warncke <ersun.warncke@protonmail.com>",
+  "bin": {
+    "ciph": "./bin/ciph"
+  },
   "dependencies": {
-
+    "commander": "2.15.0",
+    "if-defined": "^1.0.17",
+    "mz": "^2.7.0",
+    "random-int": "^1.0.0"
   },
   "description": "c:ph core libraries",
   "devDependencies": {
