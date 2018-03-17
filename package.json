@@ -4,10 +4,16 @@
     "ciph": "./bin/ciph"
   },
   "dependencies": {
+    "change-case": "^3.0.2",
     "commander": "2.15.0",
+    "ffprobe": "^1.1.0",
+    "fs-extra": "^5.0.0",
     "if-defined": "^1.0.17",
+    "lodash": "^4.17.5",
     "mz": "^2.7.0",
-    "random-int": "^1.0.0"
+    "random-int": "^1.0.0",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
   },
   "description": "c:ph core libraries",
   "devDependencies": {
