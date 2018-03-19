@@ -1,12 +1,12 @@
 # Data Format
 
 The c:ph client and platform encapsulate media in an encrypted container
-and then segment that data into standard sized blocks for storage and
+and then segment that container into standard sized blocks for storage and
 distribution.
 
 ## Overview
 
-Each c:ph container includes a `header` block, zero or more `meta` blocks and
+Each c:ph container includes a `head` block, zero or more `meta` blocks and
 zero or more `data` blocks.
 
 If all of the container content will fit into a single block then it is not
@@ -20,31 +20,39 @@ All meta information for the `data` is stored in the `meta` data for the
 container which is JSON encoded and gzip'd before storing.
 
 After any `data` blocks are created and the `meta` data is finalized then the
-`header` block can be created.
+`head` block can be created.
 
-The `header` must fit into a single block so its maximum size is 16MB but in
+The `head` must fit into a single block so its maximum size is 16MB but in
 most cases should be much smaller than this.
 
 ## Encryption
 
-Containers are encrypted using [AES-CTR] (counter mode) which allows individual
-blocks to be decrypted without decrypting all of the data that came before
-them. This allows for seeking in videos and extracting individual files from
-larger collections.
+Containers are encrypted using [AES-CTR].
 
-The `head` block starts with a pad of random data that is a random length. This
-random data pad makes known-plaintext attacks against the encryption scheme
-more difficult by making sure than known features of the file format do not
-appear in consistent positions.
+Each container has a random 256bit (32 byte) password. Users can provide
+passwords but for optimal security this is not recommended.
+
+Each container has a random 16 byte salt that is used both to derive the
+encryption key from the password using PBKDF2 and as the initialization
+vector (IV) for encryption.
+
+PBKDF2 is used with 100,000 rounds to derive the encryption key from the
+password.
+
+Any extra `data` or `meta` blocks have their own random encryption keys that
+are stored in the container `head`.
 
 [AES-CTR]: https://tools.ietf.org/html/rfc3686
 
 ## Block Sizes
 
-* 0 : 256KB 
-* 1 : 1MB
-* 2 : 4MB
-* 3 : 16MB
+* 0 : 4KB
+* 1 : 16KB
+* 2 : 64KB
+* 3 : 256KB 
+* 4 : 1MB
+* 5 : 4MB
+* 6 : 16MB
 
 ## Content Types
 
@@ -54,16 +62,13 @@ appear in consistent positions.
 * 3 : Audio
 * 4 : Image
 
-## Header Block
+## Header Block (v1)
 
 ----------Plain----------
 1 Byte          uint8   Format Version
 1 Byte          uint8   Content Type (collection, audio, image, page, video)
 --------Encrypted--------
-16 Bytes        raw     Replace Token
 32 Bytes        raw     Chat Key
-2 Bytes         uint16  Random Pad Length
-2-4096 Bytes    raw     Random Pad Data
 4 Bytes         uint32  Meta Data Length
 2 Bytes         uint16  Number of Meta Blocks
 0-? Bytes       raw     Meta Block Ids (or) Meta Data
@@ -74,31 +79,11 @@ appear in consistent positions.
 
 All numeric values are stored in Network Byte Order (big-endian).
 
-## Replace Token
-
-When publishing a new encrypted container clients request a `replace token`
-from the c:ph platform and recieve a `token` and a `secret`.
-
-If the client wants to update or delete the container they make a request to
-the replace API with the link for the replacement containter signed with the
-secret using HMAC-SHA-256.
-
-The same container may be replaced any number of times but the c:ph platform
-only stores the most recent replacement.
-
-When clients begin downloading a container they should retrieve the replace
-token first and check to see if the container has been replaced before
-downloading.
-
-The owner of a container can also mark a replace token as deleted. Marking
-the token as deleted does not delete any blocks from the c:ph platform so
-the data can still be retrieved.
-
 ## Chat Key
 
 The c:ph platform allows users to engage in live chat.
 
-The `chat key` is a 256 bit (64 byte) random key used to encrypt all chat
+The `chat key` is a 256 bit (32 byte) random key used to encrypt all chat
 messages for the container.
 
 ## Links
@@ -115,17 +100,27 @@ The order of block id 0 and block id 1 in links is randomized.
 
 ### Internal Links
 
-| Block Size (1 byte uint8) | block id 0 (16 byte raw) | block id 1 (16 byte raw) | key (32 bytes)
+| Block Size (1 byte uint8) |
+| Block id 0 (16 byte raw)  |
+| Block id 1 (16 byte raw)  |
+| Key (32 bytes raw)        | 
 
-Internally block links are stored as binary data with a total length of 33 bytes.
+Internal links to `head` and `data` blocks are stored as binary data with a
+total length of 65 bytes.
 
 ### External Links
 
-| Block Size |:| Content Type |:| block id 0 (32 byte hex) |:|
- block id 1 (32 byte hex) |:| salt (16 byte hex) |:| password 
+| Block Size (Digit)       |:|
+| Content Type (Digit)     |:|
+| Block id 0 (32 byte hex) |:|
+| Block id 1 (32 byte hex) |:|
+| Salt* (16 byte hex)      |:|
+| Password* (64 byte hex)  |
 
-External block links start with both the block size and content type encoded as
-ascii integers. Block ids are hex encoded.
+\*optional
+
+External block links start with the block size and content type encoded as
+ascii integers. All other fields are hex encoded.
 
 The content type is included in links so that indexers can organize links by
 content type without accessing content data. c:ph clients will reject content

@@ -70,7 +70,7 @@ and analytics.
 
 Text content on the c:ph platform is formatted using markdown.
 
-Links to other c:ph content and embedded audio and video are allowed.
+Links to other c:ph content and embedded images, audio and video are allowed.
 
 HTML, CSS, JavaScript, and links to regular web content are not allowed.
 
@@ -82,8 +82,8 @@ to support adaptive bitrate videos.
 c:ph does not currently support live streaming video but future support is
 planned.
 
-c:ph uses Google's Shaka Player along with a custom data plugin to playback
-video in the browser and desktop clients.
+c:ph uses Google's Shaka Player with a custom network/data plugin that handles
+the request and decode of encrypted c:ph content.
 
 ### Audio Content
 
@@ -119,4 +119,4 @@ Types of media collections include:
 ## Unsupported Devices/Browsers
 
 * iOS Safari (missing MediaSource support)
-* Edge (missing AES-CTR, could probably be polyfilled)
+* Edge (missing AES-CTR, FLAC, could be polyfilled)

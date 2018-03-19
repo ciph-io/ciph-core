@@ -36,3 +36,15 @@ yarn.lock
 
 # Optional REPL history
 .node_repl_history
+
+# ignore working directories
+.0*
+.1*
+.2*
+.3*
+.4*
+.5*
+.6*
+.7*
+.8*
+.9*
