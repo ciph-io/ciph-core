@@ -1,6 +1,6 @@
-# c:ph Ecosystem
+# Ciph Ecosystem
 
-Besides simply transmitting data the c:ph platform must also support:
+Besides simply transmitting data the Ciph platform must also support:
 
 * tracking data usage
 * offering tiered account levels
@@ -10,10 +10,10 @@ Besides simply transmitting data the c:ph platform must also support:
 * ratings
 * parental controls
 
-These features must be provided in a way that is consistent with c:ph's core
+These features must be provided in a way that is consistent with Ciph's core
 values of security, privacy and censorship resistance.
 
-In order to achieve the scale that c:ph requires all features must be able to
+In order to achieve the scale that Ciph requires all features must be able to
 be implemented using simple key/value and log data structures where the keys
 are cryptographic hashes that allow data to be naturally partitioned.
 
@@ -55,14 +55,14 @@ the container has been replaced or marked as deleted.
 The user id that is registered for a container can submit a new container that
 replaces the original or marks it as deleted.
 
-The replace id must contain:
+The replace link must contain:
 
     size|block 0 id|block 1 id|iv
 
 The replacement container must be encrypted with the same key as the original
 container and the new randomly generated initialization vector (iv).
 
-The c:ph platform only stores the most recent replacement for a container and
+The Ciph platform only stores the most recent replacement for a container and
 a container may be replaced multiple times.
 
 If a container is a replacement for another container and it is being replaced
@@ -95,12 +95,15 @@ deleted.
 In the normal case deleted flags will be ignored. However, marking a container
 as deleted will prevent any previously created replacements from being resolved.
 
+When deleting a replacement the replacement should be updated to point back to
+the original and only the original should be marked as deleted.
+
 ### Chat
 
 The container id is used as the target for all chat messages. Chat messages are
 encrypted with the random chat key that is included in the `head` block.
 
-The c:ph chat system is content oriented. When users access a content container
+The Ciph chat system is content oriented. When users access a content container
 they can view recent chat messages related to the container and they have
 the option of "following" the chat for that container.
 
@@ -114,38 +117,23 @@ Users can block messages from any other user id and/or IP address
 
 ## Users
 
-Users in the ciph system are identified by a 128bit (32byte hex) random id.
-
-The user id may be randomly generated or it may be derived from a username and
-salt.
+Users in the Ciph system are identified by a 128bit (32byte hex) random id.
 
 ### Registration
 
-Users ids can be registered by sending the desired id to an endpoint.
+New user ids are issued upon request. By default a new user id is created for
+every new container that is created.
 
-If the id is already registered the request will be rejected.
+When creating a new user the client can specify a 32 byte hex. If not a new
+random secret will be created.
 
-If the id has not been registered then a new secret key for the user id will
-be generated, stored and returned.
+All requests that require user authentication must be signed using HMAC-SHA-256.
 
-All authorized requests made for an id must be signed using the secret key.
+### Usernames
 
-If clients want to provide password functionality they can encrypt the secret
-key with a user provided password.
+Users are anonymous by default. Users may choose to provide a username.
 
-### Example username
-
-    a42f9c71:My User Name
-
-For a derived username the user provided part of the name is prefixed with an
-8 character hex salt that is used to derive the true user id.
-
-If users choose to share their name (in chat for instance) clients must send
-both the salt:username and the derived username. Clients recieving these must
-validate that the derived username matches salt:username.
-
-Clients should detect conflicting plaintext usernames with different salts and
-highlight these.
+Usernames need not be unique and should be displayed with the unique user id.
 
 ## Ratings
 
@@ -174,33 +162,31 @@ content and then use the age appropriateness rating to determine what hostname
 to request additional content blocks from.
 
 By using a different hostname for unrated content and for each different level
-of age appropriateness c:ph makes it possible for parents to block
+of age appropriateness Ciph makes it possible for parents to block
 inappropriate content at the network level by blocking the hostnames for
 content that is not allowed.
 
-When a user is signed into a premium account where they have verified their
+When a user is signed in to a premium account where they have verified their
 identify and adulthood by making a purchase their requests will be routed to
 a different hostname that is not blocked and any parental controls are enforced
 at the account level instead of the network level.
 
-For instance, with a logged in account parents can set controls and required
+For instance, with a logged in account parents can set controls and require
 that a password be entered in order to view content that exceeds the set
 limits.
 
 ## Tiered Accounts
 
-c:ph has two account levels: free ad-supported access and paid ad-free premium
+Ciph has two account levels: free limited speed access and paid high speed
 access.
 
 ### Free Tier
 
 * Limited download speeds (cannot stream HD video)
-* Advertising in videos
 
 ### Premium Tier
 
 * No download speed limits
-* No advertising
 
 ### Premium Tier Pricing
 
@@ -214,7 +200,7 @@ are:
 
 ## Compensating Content Creators
 
-c:ph shares 50% of **all** platform revenue for containers that have
+Ciph shares 50% of **all** platform revenue for containers that have
 registered user ids with content creators.
 
 Revenue share is allocated to the user ids that are registered for content
@@ -232,27 +218,27 @@ displayed during that stream.
 
 ## Tracking Data Usage
 
-The c:ph platform never stores any data about what content a user has accessed.
+The Ciph platform never stores any data about what content a user has accessed.
 
-For premium tier users c:ph does record the amount of data that a user id has
+For premium tier users Ciph does record the amount of data that a user id has
 downloaded in order to track the usage of allocated data.
 
 ### Tracking IP Addresses
 
-Limited storage and tracking of IP addresses is needed to defend the c:ph
-platform against Denial of Service attacks.
+Limited storage and tracking of IP addresses is needed to defend the Ciph
+platform against Denial of Service attacks and other abuses.
 
 All IP address tracking is done exclusively in memory and never recorded to
 disk.
 
 Only resource usage information - such as the number of blocks uploaded or the
-number of API calls made - is recorded.
+number of API calls made - is kept in memory.
 
-The content uploaded or downloaded by an IP address is never recorded.
+The content uploaded or downloaded by an IP address is never kept in memory.
 
 ### User IP Address Blocking
 
-When chatting on the c:ph platform users can block messages from other users.
+When chatting on the Ciph platform users can block messages from other users.
 
 When a user is blocked both the user id and the IP address that was blocked is
 recorded.
@@ -260,4 +246,4 @@ recorded.
 If a user id or IP address has recieved a high proportion of blocks from other
 users this information will be indicated to clients and clients may choose
 to hide these messages but should indicate to users that there are messsages
-that have been auto-blocked and allow users to review these messages.
+that have been auto-blocked and allow users to view these messages.

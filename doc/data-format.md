@@ -1,18 +1,18 @@
 # Data Format
 
-The c:ph client and platform encapsulate media in an encrypted container
+The Ciph client and platform encapsulate media in an encrypted container
 and then segment that container into standard sized blocks for storage and
 distribution.
 
 ## Overview
 
-Each c:ph container includes a `head` block, zero or more `meta` blocks and
+Each Ciph container includes a `head` block, zero or more `meta` blocks and
 zero or more `data` blocks.
 
 If all of the container content will fit into a single block then it is not
 necessaary to create additional `meta` and `data` blocks.
 
-The c:ph client creates a new media container from one or more input files.
+The Ciph client creates a new media container from one or more input files.
 Input files are processed and if the size of the input data exceeds a single
 block then `data` blocks are created.
 
@@ -33,14 +33,16 @@ Each container has a random 256bit (32 byte) password. Users can provide
 passwords but for optimal security this is not recommended.
 
 Each container has a random 16 byte salt that is used both to derive the
-encryption key from the password using PBKDF2 and as the initialization
-vector (IV) for encryption.
+encryption key from the password using PBKDF2.
 
 PBKDF2 is used with 100,000 rounds to derive the encryption key from the
 password.
 
 Any extra `data` or `meta` blocks have their own random encryption keys that
 are stored in the container `head`.
+
+The initialization vector (IV) used for encryption is the first 16 bytes of
+an SHA-256 hash of the key.
 
 [AES-CTR]: https://tools.ietf.org/html/rfc3686
 
@@ -75,13 +77,14 @@ are stored in the container `head`.
 8 Bytes         float64 Data Length
 4 Bytes         uint32  Number of Data Blocks
 0-? Bytes       raw     Data Block Ids (or) Data
+32 Bytes        raw     SHA-256 hash of head
 ? Bytes         raw     Random Padding
 
 All numeric values are stored in Network Byte Order (big-endian).
 
 ## Chat Key
 
-The c:ph platform allows users to engage in live chat.
+The Ciph platform allows users to engage in live chat.
 
 The `chat key` is a 256 bit (32 byte) random key used to encrypt all chat
 messages for the container.
@@ -110,11 +113,11 @@ total length of 65 bytes.
 
 ### External Links
 
-| Block Size (Digit)       |:|
-| Content Type (Digit)     |:|
-| Block id 0 (32 byte hex) |:|
-| Block id 1 (32 byte hex) |:|
-| Salt* (16 byte hex)      |:|
+| Block Size (Digit)       |-|
+| Content Type (Digit)     |-|
+| Block id 0 (32 byte hex) |-|
+| Block id 1 (32 byte hex) |-|
+| Salt* (16 byte hex)      |-|
 | Password* (64 byte hex)  |
 
 \*optional
@@ -123,7 +126,7 @@ External block links start with the block size and content type encoded as
 ascii integers. All other fields are hex encoded.
 
 The content type is included in links so that indexers can organize links by
-content type without accessing content data. c:ph clients will reject content
+content type without accessing content data. Ciph clients will reject content
 that does not match the link content type.
 
 The salt is used with PBKDF2 to derive the encryption key from the password.
