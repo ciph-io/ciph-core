@@ -89,6 +89,18 @@ The Ciph platform allows users to engage in live chat.
 The `chat key` is a 256 bit (32 byte) random key used to encrypt all chat
 messages for the container.
 
+## Meta Data
+
+Meta data is JSON encoded and gzip'd.
+
+### Common Properties
+
+#### files
+
+#### originalId
+
+#### parentId
+
 ## Links
 
 Blocks are identified by the first 128 bits (16 bytes) of an SHA-256 (SHA-2)
