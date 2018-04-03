@@ -10,7 +10,9 @@ const Publisher = require('../lib/publisher')
 
 commander
     .option('--api <url>', 'host of ciph api (default: https://ciph.io)')
+    .option('--json', 'output results in json')
     .option('--key <key>', 'password for container')
+    .option('--quiet', 'do not log info')
     .option('--verify', 'download and verify files after publish')
     .command('publish <page|video> <files...>')
     .action(async function () {
