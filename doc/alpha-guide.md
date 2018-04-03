@@ -10,9 +10,17 @@ Linux to upload `page` and `video` content to the Ciph platform.
     curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
     sudo apt install -y nodejs
 
-### FFMPEG
+### FFMPEG (Easy LQ)
 
     sudo apt install -y ffmpeg
+
+### FFMPEG (Harder HQ)
+
+To compile ffmpeg with the higher quality Fraunhofer FDK AAC encoder run this
+script: https://gist.github.com/rafaelbiriba/7f2d7c6f6c3d6ae2a5cb
+
+Copy both `ffmpeg` and `ffprobe` to /usr/bin or use the FFMPEG_PATH and
+FFPROBE_PATH env variables to specify the absolute path of the executables.
 
 ### MP4Box
 

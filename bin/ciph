@@ -14,6 +14,7 @@ commander
     .option('--key <key>', 'password for container')
     .option('--quiet', 'do not log info')
     .option('--verify', 'download and verify files after publish')
+    .option('--work-path <path>', 'directory to store intermediate files in')
     .command('publish <page|video> <files...>')
     .action(async function () {
         try {
