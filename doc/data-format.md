@@ -35,7 +35,7 @@ passwords but for optimal security this is not recommended.
 Each container has a random 16 byte salt that is used both to derive the
 encryption key from the password using PBKDF2.
 
-PBKDF2 is used with 100,000 rounds to derive the encryption key from the
+PBKDF2 is used with 10,000 rounds to derive the encryption key from the
 password.
 
 Any extra `data` or `meta` blocks have their own random encryption keys that

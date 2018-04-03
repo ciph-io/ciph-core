@@ -9,9 +9,10 @@ const commander = require('commander')
 const Publisher = require('../lib/publisher')
 
 commander
-    .command('publish <page|video> <files...>')
     .option('--api <url>', 'host of ciph api (default: https://ciph.io)')
+    .option('--key <key>', 'password for container')
     .option('--verify', 'download and verify files after publish')
+    .command('publish <page|video> <files...>')
     .action(async function () {
         try {
             await Publisher.publish.apply(null, Array.from(arguments))
