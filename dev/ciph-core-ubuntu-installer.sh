@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # get packages
-apt-get update -qq
-apt-get -y install autoconf automake build-essential cmake git libass-dev libfreetype6-dev libtheora-dev libtool libvorbis-dev mercurial pkg-config texinfo wget zlib1g-dev yasm
-
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
+apt-get update -qq && \
+apt-get -y install autoconf automake build-essential cmake git libass-dev libfreetype6-dev libtheora-dev libtool libvorbis-dev mercurial pkg-config texinfo wget zlib1g-dev yasm nodejs && \
 # create source dir for ffmpeg and encoders
 mkdir -p ~/ffmpeg_sources && \
 # install nasm
@@ -97,5 +97,6 @@ rm -rf ~/bin ~/ffmpeg_build ~/ffmpeg_sources && \
 # download shaka-packager
 wget https://github.com/google/shaka-packager/releases/download/v2.0.2/packager-linux && \
 chmod +x packager-linux && \
-mv packager-linux /usr/bin/shaka-packager
-
+mv packager-linux /usr/bin/shaka-packager && \
+cd ~/ciph-core && \
+npm install
