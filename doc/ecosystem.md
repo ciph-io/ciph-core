@@ -15,7 +15,7 @@ values of security, privacy and censorship resistance.
 
 In order to achieve the scale that Ciph requires all features must be able to
 be implemented using simple key/value and log data structures where the keys
-are cryptographic hashes that allow data to be naturally partitioned.
+are cryptographic hashes that allow data to be easily sharded.
 
 ## Content Containers
 

@@ -3,7 +3,22 @@
 This guide covers installing `ciph-core` and required dependencies on Ubuntu
 Linux to upload `page` and `video` content to the Ciph platform.
 
-## Ubuntu Install
+## Automated Ubuntu Install
+
+After cloning ciph-core repo run:
+
+    ~/ciph-core$ sudo dev/ciph-core-ubuntu-install.sh
+
+This script will:
+
+* download and compile ffmpeg with libfdk-aac
+* copy ffmpeg and ffprobe to /usr/bin
+* download shaka-packger and copy to /usr/bin/shaka-packager
+* add nodesource reponsitory
+* install nodejs
+* run npm install
+
+## Manual Ubuntu Install
 
 ### Node.js
 
@@ -16,15 +31,15 @@ Linux to upload `page` and `video` content to the Ciph platform.
 
 ### FFMPEG (Harder HQ)
 
-To compile ffmpeg with the higher quality Fraunhofer FDK AAC encoder run this
-script: https://gist.github.com/rafaelbiriba/7f2d7c6f6c3d6ae2a5cb
+To compile ffmpeg with the higher quality Fraunhofer FDK AAC encoder follow the
+instructions here: https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 
-Copy both `ffmpeg` and `ffprobe` to /usr/bin or use the FFMPEG_PATH and
-FFPROBE_PATH env variables to specify the absolute path of the executables.
+### Shaka Packager
 
-### MP4Box
+Download the `packager-linux` binary from: https://github.com/google/shaka-packager/releases
 
-    sudo apt install -y gpac
+Copy to /usr/bin/shaka-packager or set the SHAKA_PACKAGER_PATH env variable to
+the absolute path of the executable.
 
 ### Clone ciph-core repository
 
@@ -57,11 +72,11 @@ From the `ciph-core` directory run:
 
 Video publishing is currently very limited and does not have many options.
 
-* video must be encoded as h.264
+* video must be encoded as h264
 * video is never re-encoded
 * if audio is not aac it will be re-encoded as aac
 * subtitles will be re-encoded as WebVTT
-* video will be split into 5000ms segments for MPEG-DASH
+* video will be split into 5 second segments for MPEG-DASH
 * if multiple video sources are provided duplicate subtitles and audio streams
   will be skipped
 * with multiple video streams video must be re-encoded so that every segment

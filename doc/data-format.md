@@ -129,7 +129,7 @@ total length of 65 bytes.
 | Content Type (Digit)     |-|
 | Block id 0 (32 byte hex) |-|
 | Block id 1 (32 byte hex) |-|
-| Salt* (16 byte hex)      |-|
+| Salt (16 byte hex)       |-|
 | Password* (64 byte hex)  |
 
 \*optional
