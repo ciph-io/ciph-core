@@ -95,6 +95,7 @@ cp ~/ffmpeg_build/bin/x265 /usr/bin && \
 # delete source and build dirs
 rm -rf ~/bin ~/ffmpeg_build ~/ffmpeg_sources && \
 # download shaka-packager
+cd ~ && \
 wget https://github.com/google/shaka-packager/releases/download/v2.0.2/packager-linux && \
 chmod +x packager-linux && \
 mv packager-linux /usr/bin/shaka-packager && \
