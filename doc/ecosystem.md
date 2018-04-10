@@ -22,9 +22,7 @@ are cryptographic hashes that allow data to be easily sharded.
 Content containers consist of one `head` block that describes the content and
 zero or more `meta` and `data` blocks.
 
-The id for a container is a hash of the complete container link:
-
-    size|block 0 id|block 1 id|key
+Containers have two ids: a `private id` and a `public id`.
 
 Unlike blocks, which are not related to any one piece of content, container ids
 do identify a specific piece of content, and so they are inherently vulnerable
@@ -32,6 +30,18 @@ to censorship.
 
 Consequently it must be assumed that all functionality that uses container ids
 is subject to failure and cannot be relied upon.
+
+### Container Private Id
+
+The `private id` for a container is a hash of the container block ids and key:
+
+    block 0 id|block 1 id|key
+
+### Container Public Id
+
+The `public id` for a container is a hast of the container block ids:
+
+    block 0 id|block 1 id
 
 ### Container Registration
 
@@ -49,8 +59,8 @@ replaces the old container (update) or mark the container as deleted.
 
 ### Container Replace (Update)
 
-Whenever a client accesses a container it can use the container id to check if
-the container has been replaced or marked as deleted.
+Whenever a client accesses a container it can use the container `private id` to
+check if the container has been replaced or marked as deleted.
 
 The user id that is registered for a container can submit a new container that
 replaces the original or marks it as deleted.
@@ -100,8 +110,9 @@ the original and only the original should be marked as deleted.
 
 ### Chat
 
-The container id is used as the target for all chat messages. Chat messages are
-encrypted with the random chat key that is included in the `head` block.
+The container `private id` is used as the target for all chat messages. Chat
+messages are encrypted with the random chat key that is included in the `head`
+block.
 
 The Ciph chat system is content oriented. When users access a content container
 they can view recent chat messages related to the container and they have
@@ -124,16 +135,11 @@ Users in the Ciph system are identified by a 128bit (32byte hex) random id.
 New user ids are issued upon request. By default a new user id is created for
 every new container that is created.
 
-When creating a new user the client can specify a 32 byte hex. If not a new
-random secret will be created.
+When creating a new user the client can specify a 32 byte hex secret. If not a
+new random secret will be created.
 
-All requests that require user authentication must be signed using HMAC-SHA-256.
-
-### Usernames
-
-Users are anonymous by default. Users may choose to provide a username.
-
-Usernames need not be unique and should be displayed with the unique user id.
+All requests that require user authentication must be signed with the user
+secret using HMAC-SHA-256.
 
 ## Ratings
 
@@ -193,15 +199,13 @@ access.
 Premium Tier accounts pay for a fixed amount of download data. Example prices
 are:
 
-* $10 / 100GB Data
-* $20 / 250GB Data
-* $30 / 500GB Data
-* $50 / 1000GB Data
+* $10 / 200GB Data
+* $20 / 500GB Data
+* $30 / 1000GB Data
 
 ## Compensating Content Creators
 
-Ciph shares 50% of **all** platform revenue for containers that have
-registered user ids with content creators.
+Ciph shares 50% of **gross revenue** with content creators.
 
 Revenue share is allocated to the user ids that are registered for content
 containers based on the "Last One Wins" method.
@@ -210,11 +214,7 @@ For example:
 
 If a users accesses a content container that is registered to a user id and
 then upgrades to the premium tier the user id registered for that content
-container will recieve 50% of the gross amount the user paid.
-
-If a free tier user streams a video from a container then the registered user
-id for that container will recieve 50% of the gross ad revenue from ads
-displayed during that stream.
+container will recieve 50% of the amount the user paid.
 
 ## Tracking Data Usage
 
@@ -240,7 +240,7 @@ The content uploaded or downloaded by an IP address is never kept in memory.
 
 When chatting on the Ciph platform users can block messages from other users.
 
-When a user is blocked both the user id and the IP address that was blocked is
+When a user is blocked both the user id and the IP address that was blocked are
 recorded.
 
 If a user id or IP address has recieved a high proportion of blocks from other
