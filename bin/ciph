@@ -8,7 +8,7 @@ const commander = require('commander')
 /* app modules */
 const Publisher = require('../lib/publisher')
 
-commander
+commander.command('publish <page|video> <files...>')
     .option('--api <url>', 'host of ciph api (default: https://ciph.io)')
     .option('--json', 'output results in json')
     .option('--key <key>', 'password for container')
@@ -16,7 +16,6 @@ commander
     .option('--title <title>', 'title for content displayed to user')
     .option('--verify', 'download and verify files after publish')
     .option('--work-path <path>', 'directory to store intermediate files in')
-    .command('publish <page|video> <files...>')
     .action(async function () {
         try {
             await Publisher.publish.apply(null, Array.from(arguments))

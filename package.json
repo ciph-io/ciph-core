@@ -1,5 +1,5 @@
 {
-  "author": "Ersun Warncke <ersun.warncke@protonmail.com>",
+  "author": "Ersun Warncke <ersun.warncke@gmail.com>",
   "bin": {
     "ciph": "./bin/ciph"
   },
