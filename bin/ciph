@@ -10,10 +10,16 @@ const Publisher = require('../lib/publisher')
 
 commander.command('publish <page|video> <files...>')
     .option('--api <url>', 'host of ciph api (default: https://ciph.io)')
+    .option('--agree-charges', 'agree to data charges for upload')
+    .option('--assert-ownership', 'assert ownership of content being published')
     .option('--json', 'output results in json')
     .option('--key <key>', 'password for container')
+    .option('--password <password>', 'password to login with')
     .option('--quiet', 'do not log info')
+    .option('--secret <secret>', 'secret to authenticate with')
     .option('--title <title>', 'title for content displayed to user')
+    .option('--userid <userid>', 'userid to authenticate with')
+    .option('--username <username>', 'username to login with')
     .option('--verify', 'download and verify files after publish')
     .option('--work-path <path>', 'directory to store intermediate files in')
     .action(async function () {
@@ -26,3 +32,7 @@ commander.command('publish <page|video> <files...>')
     })
 
 commander.parse(process.argv)
+
+if (!['page', 'video'].includes(commander.args[0])) {
+    commander.outputHelp()
+}

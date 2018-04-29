@@ -4,15 +4,18 @@
     "ciph": "./bin/ciph"
   },
   "dependencies": {
+    "bytes": "3.0.0",
     "change-case": "3.0.2",
     "commander": "2.15.0",
     "ffprobe": "1.1.0",
     "fs-extra": "5.0.0",
     "if-defined": "1.0.17",
+    "inquirer": "5.2.0",
     "langs": "2.0.0",
     "lodash": "4.17.5",
     "mz": "2.7.0",
     "random-int": "1.0.0",
+    "random-item": "1.0.0",
     "request": "2.85.0",
     "request-promise": "4.2.2"
   },
