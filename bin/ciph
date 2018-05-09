@@ -36,6 +36,7 @@ commander.command('publish <page|video> <files...>')
 
 commander.parse(process.argv)
 
-if (!['page', 'video'].includes(commander.args[0])) {
+if (!['collection', 'page', 'video'].includes(commander.args[0])) {
     commander.outputHelp()
+    process.exit()
 }
