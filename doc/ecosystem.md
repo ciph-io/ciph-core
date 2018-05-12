@@ -3,7 +3,7 @@
 Besides simply transmitting data the Ciph platform must also support:
 
 * tracking data usage
-* offering tiered account levels
+* offering free and paid data
 * compensating content creators
 
 * chat
@@ -33,13 +33,15 @@ is subject to failure and cannot be relied upon.
 
 ### Container Private Id
 
-The `private id` for a container is a hash of the container block ids and key:
+The `private id` for a container is a hash of the raw binary data of the
+container block ids and key:
 
     block 0 id|block 1 id|key
 
 ### Container Public Id
 
-The `public id` for a container is a hast of the container block ids:
+The `public id` for a container is a hash of the raw binary data of the
+container block ids:
 
     block 0 id|block 1 id
 
@@ -48,15 +50,18 @@ The `public id` for a container is a hast of the container block ids:
 Whenever a client accesses a container it can use the container `private id` to
 check if the container has been replaced or marked as deleted.
 
-The user id that is registered for a container can submit a new container that
-replaces the original or marks it as deleted.
+When a container is first published a token is created for its private id. This
+token must be provided to create a replacement.
 
-The replace link must contain:
+The replacement link must contain:
 
     size|block 0 id|block 1 id|iv
 
 The replacement container must be encrypted with the same key as the original
 container and the new randomly generated initialization vector (iv).
+
+The replacement container must use the same replace token as the original
+container.
 
 The Ciph platform only stores the most recent replacement for a container and
 a container may be replaced multiple times.
