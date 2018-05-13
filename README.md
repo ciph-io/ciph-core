@@ -85,11 +85,12 @@ HTML, CSS, JavaScript, and links to regular web content are not allowed.
 
 ### Video Content
 
-Ciph supports h.264 video and AAC audio in mp4 containers and uses MPEG-DASH
-to support adaptive bitrate videos.
+Ciph supports h.264 video and AAC audio in mp4 containers and vp9 video and
+opus audio in webm containers.
 
-Ciph does not currently support live streaming video but future support is
-planned.
+Ciph uses MPEG-DASH and supports adaptive bitrate audio and vide.
+
+Ciph does not currently support live streaming but future support is planned.
 
 Ciph uses Google's Shaka Player with a custom network/data plugin that handles
 the request and decode of encrypted Ciph content.
@@ -100,7 +101,7 @@ Ciph supports audio in the MP3, AAC and FLAC formats.
 
 ### Image Content
 
-Ciph supports images in the GIF, JPG, and PNG formats
+Ciph supports images in the GIF, JPG, PNG and WEBP formats
 
 ### Media Collections
 
@@ -117,8 +118,8 @@ Types of media collections include:
 
 ### Desktop
 
-* Web Browsers (Opera, Chrome, Firefox on Linux, Windows, Mac)
-* Native Electron Application (Linux, Windows, Mac)
+* Web Browsers (Chrome, Firefox on Linux, Windows, Mac)
+* Native (Electron) apps planned
 
 ### Mobile
 
@@ -127,5 +128,5 @@ Types of media collections include:
 
 ## Unsupported Devices/Browsers
 
-* iOS Safari (missing MediaSource support)
-* Edge (missing AES-CTR, FLAC, could be polyfilled)
+* iOS Safari
+* IE, Edge
