@@ -5,9 +5,9 @@ Linux to upload `page` and `video` content to the Ciph platform.
 
 ## Automated Ubuntu Install
 
-After cloning ciph-core repo run:
+After cloning ciph-core repo run as root:
 
-    ~/ciph-core$ sudo dev/ciph-core-ubuntu-install.sh
+    ~/ciph-core$ dev/ciph-core-ubuntu-install.sh
 
 This script will:
 

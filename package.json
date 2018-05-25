@@ -17,9 +17,10 @@
     "random-int": "1.0.0",
     "random-item": "1.0.0",
     "request": "2.85.0",
-    "request-promise": "4.2.2"
+    "request-promise": "4.2.2",
+    "ytdl-core": "0.20.4"
   },
-  "description": "c:ph core libraries",
+  "description": "Ciph core libraries",
   "devDependencies": {
     "chai": "4.1.2",
     "chai-as-promised": "7.1.1",
@@ -40,5 +41,5 @@
   "scripts": {
     "test": "mocha"
   },
-  "version": "0.1.1"
+  "version": "0.1.2"
 }
