@@ -2,7 +2,7 @@
 
 ## Install Ciph
 
-1. Download the latest windows release from: https://github.com/ciph-io/ciph-core/releases/
+1. Download the latest `ciph-windows.zip` from: https://github.com/ciph-io/ciph-core/releases/
 2. Unarchive zip file to C:\
 3. All files should be under C:\ciph
 			
