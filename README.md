@@ -10,14 +10,16 @@ to encrypt all data and then uses a unique distributed encryption algorithm
 based on one-time pad (OTP) cryptography to enhance privacy and resist
 censorship.
 
-## PRE-RELEASE ALPHA
+## ALPHA Release
 
-Ciph is currently in a pre-release alpha state. Nothing is finalized yet but
-we want to do our development in the open so that we can get as much testing
-and feedback as possible.
+Ciph in an alpha release state. Many foundational aspects of the design are
+finalized and will not be changed unless major flaws are found.
 
-For instructions on installing ciph-core and uploading to the ciph platform
-see `doc/alpha-guide.md`
+To install for Windows see: `doc/windows-install.md`
+
+To install for Ubuntu see: `doc/ubuntu-install.md`
+
+For details on publishing content see: `doc/publishing-guide.md`
 
 ## Distributed Encryption
 

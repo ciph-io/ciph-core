@@ -115,11 +115,22 @@ containers they follow are displayed in a real time feed.
 Users can easily jump back and forth between the global chat view and the chat
 thread for any particular content container.
 
-Users can block messages from any other user id and/or IP address
+## Anons
+
+Anonymous clients that are not logged in to a registered user account are
+identified by an 8byte hex `anon id` derived from the users IP address.
+
+The `anon id` is used for tracking free data usage and for blocking users in
+chat.
+
+Client IP addresses are never stored.
+
+Anon ids are not necessarily unique to IP addresses and it is possible that
+different IP addresses will have the same anon id in rare cases.
 
 ## Users
 
-Users in the Ciph system are identified by a 128bit (32byte hex) random id.
+Users in the Ciph system are identified by a 128bit (32byte hex) id.
 
 ### Registration
 
@@ -129,8 +140,7 @@ every new container that is created.
 When creating a new user the client can specify a 32 byte hex secret. If not a
 new random secret will be created.
 
-All requests that require user authentication must be signed with the user
-secret using HMAC-SHA-256.
+The user secret must be sent to validate requests that require authentication.
 
 ## Ratings
 
@@ -198,32 +208,14 @@ container will recieve 50% of the amount the user paid.
 
 ## Tracking Data Usage
 
-The Ciph platform never stores any data about what content a user has accessed.
+Data usage is tracked both by `anon id` and `user id`.
 
-For premium tier users Ciph does record the amount of data that a user id has
-downloaded in order to track the usage of allocated data.
+When a user is logged into a registered user account with credit available then
+their user credit will be used first and any anon credit will be used if they
+have no user credit remaining.
 
-### Tracking IP Addresses
+Free anon credit is issued per `anon id` which is derived from IP address so
+almost every unique IP address should get free credit every month.
 
-Limited storage and tracking of IP addresses is needed to defend the Ciph
-platform against Denial of Service attacks and other abuses.
-
-All IP address tracking is done exclusively in memory and never recorded to
-disk.
-
-Only resource usage information - such as the number of blocks uploaded or the
-number of API calls made - is kept in memory.
-
-The content uploaded or downloaded by an IP address is never kept in memory.
-
-### User IP Address Blocking
-
-When chatting on the Ciph platform users can block messages from other users.
-
-When a user is blocked both the user id and the IP address that was blocked are
-recorded.
-
-If a user id or IP address has recieved a high proportion of blocks from other
-users this information will be indicated to clients and clients may choose
-to hide these messages but should indicate to users that there are messsages
-that have been auto-blocked and allow users to view these messages.
+Because anon ids are not 100% unique for IPs and because some users share IPs
+there is no guarantee that individual anons will get free credit.
